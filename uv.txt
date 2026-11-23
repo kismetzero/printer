@@ -1,0 +1,17 @@
+uv add python-escpos
+Using CPython 3.14.5
+Creating virtual environment at: .venv
+Resolved 12 packages in 13.27s
+Prepared 11 packages in 1m 45s
+Installed 11 packages in 226ms
+ + appdirs==1.4.4
+ + argcomplete==3.8.0
+ + colorama==0.4.6
+ + importlib-resources==7.1.0
+ + pillow==13.0.0
+ + python-barcode==0.16.1
+ + python-escpos==3.1
+ + pyyaml==6.0.4
+ + qrcode==8.2
+ + setuptools==84.2.1
+ + six==1.17.0
