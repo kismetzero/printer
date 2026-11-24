@@ -37,16 +37,17 @@ escpos_qr = b'\x1d\x28\x6b\x03\x00\x31\x43\x08' + \
             b'Hello World!' + \
             b'\x1d\x28\x6b\x03\x00\x31\x51\x30'
 
-def test1(s):
-    s.sendall(b'\x1b\x76\x00')
-    print(s.recv(32).hex())
-    print(s.recv(32).hex()) # 期望：14 00 00 00；实际：00
+def heartbeat():
+    ss = socket.create_connection(('192.168.50.5', 4000), timeout=5)
+    ss.sendall(b'\x1b\x76\x00')
+    print(ss.recv(4)) # 期望：14 00 00 00
+    ss.close()
 
-def test2(s):
+def printer_status(s):
     s.sendall(b'\x10\x04\x02')
-    print(s.recv(32).hex()) # 期望：12；实际：12
+    print(s.recv(1)) # 期望：12；实际：12
 
-def test3(s):
+def test1(s):
     s.sendall(  RESET + b'ESC @ -- 1B 40' + LF + \
                     xtest_qr0 + MOVE_2 + \
                     b'====MOVE 2====' + MOVE_2 + b'====MOVE 4====' + MOVE_4 + b'====MOVE 6====' + MOVE_6 + b'====MOVE END====' + LF + \
@@ -55,6 +56,8 @@ def test3(s):
 
 if __name__ == "__main__":
     s = socket.create_connection(('192.168.50.5', 9100), timeout=5)
-    s.sendall(RESET + xtest_qr1 + MOVE_6 + CUT)
+    s.sendall(RESET + xtest_qr0 + MOVE_6 + CUT)
+    # s.sendall(b'\x1f\x1b\x1f\x76')
+    heartbeat()
     s.close()
 
